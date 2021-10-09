@@ -1,0 +1,28 @@
+import os, sys
+import pathlib
+from datetime import datetime
+time = str(datetime.today().strftime('%Y-%m-%d'))
+
+path = pathlib.Path(__file__).parent / "counter.txt"
+
+fileToRead =open(path, 'r+')
+data = int(fileToRead.read())
+
+newData = (data + 1)
+
+fileToRead.seek(0)
+fileToRead.write(str(newData))
+fileToRead.truncate()
+fileToRead.close()
+
+fileToReadForNewData = open(path, 'r')
+readNewData = fileToReadForNewData.read()
+fileToReadForNewData.close()
+
+#For running testCases
+command = "pytest -s --html=ReportHtml/report_" + time + "_" + readNewData + ".html --self-contained-html" + " " + "functionality"
+os.system(command)
+
+# # keep only 2 reports
+# number = 2
+# deletereports(number)
